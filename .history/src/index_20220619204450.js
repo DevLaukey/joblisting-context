@@ -12,9 +12,9 @@ const DATA = [
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <tasksContext.Provider value={{DATA}}>
+  <tasksContext.Provider>
     <React.StrictMode>
-      <App />
+      <App value={DATA} />
     </React.StrictMode>
   </tasksContext.Provider>
 );

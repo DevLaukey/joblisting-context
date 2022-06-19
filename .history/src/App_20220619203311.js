@@ -14,9 +14,12 @@ function App() {
   };
 
   const FILTER_NAMES = Object.keys(FILTER_MAP);
-  const { DATA } = useContext(tasksContext);
-  const [tasks, setTasks] = useState(DATA);
+  const { tasks, setTasks } = useContext(tasksContext);
   const [filter, setFilter] = useState("All");
+
+  const [isEditing, setEditing] = useState(false);
+  const [newName, setNewName] = useState("");
+  const [name, setName] = useState("");
 
   function toggleTaskCompleted(id) {
     const updatedTasks = tasks.map((task) => {
@@ -72,18 +75,34 @@ function App() {
   const headingText = `${taskList.length} ${tasksNoun} remaining`;
 
   return (
-    <div className="todoapp stack-large">
-      <h1>TodoMatic</h1>
-      <Form addTask={addTask} deleteTask={deleteTask} editTask={editTask} />
-      <div className="filters btn-group stack-exception">{filterList}</div>
-      <h2 id="list-heading">{headingText}</h2>
-      <ul
-        className="todo-list stack-large stack-exception"
-        aria-labelledby="list-heading"
-      >
-        {taskList}
-      </ul>
-    </div>
+    <tasksContext.Provider
+      value={{
+        filter,
+        setFilter,
+        addTask,
+        deleteTask,
+        editTask,
+        isEditing,
+        setEditing,
+        newName,
+        setNewName,
+        name,
+        setName,
+      }}
+    >
+      <div className="todoapp stack-large">
+        <h1>TodoMatic</h1>
+        <Form />
+        <div className="filters btn-group stack-exception">{filterList}</div>
+        <h2 id="list-heading">{headingText}</h2>
+        <ul
+          className="todo-list stack-large stack-exception"
+          aria-labelledby="list-heading"
+        >
+          {taskList}
+        </ul>
+      </div>
+    </tasksContext.Provider>
   );
 }
 

@@ -12,7 +12,7 @@ const DATA = [
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <tasksContext.Provider value={{DATA}}>
+  <tasksContext.Provider value={DATA}>
     <React.StrictMode>
       <App />
     </React.StrictMode>

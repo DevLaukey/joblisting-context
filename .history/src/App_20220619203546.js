@@ -2,11 +2,10 @@ import "./App.css";
 import Form from "./components/Form";
 import Todo from "./components/Todo";
 import FilterButton from "./components/FilterButton";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { nanoid } from "nanoid";
-import tasksContext from "./context/tasksContext";
 
-function App() {
+function App(props) {
   const FILTER_MAP = {
     All: () => true,
     Active: (task) => !task.completed,
@@ -14,8 +13,7 @@ function App() {
   };
 
   const FILTER_NAMES = Object.keys(FILTER_MAP);
-  const { DATA } = useContext(tasksContext);
-  const [tasks, setTasks] = useState(DATA);
+  const [tasks, setTasks] = useState(props.tasks);
   const [filter, setFilter] = useState("All");
 
   function toggleTaskCompleted(id) {

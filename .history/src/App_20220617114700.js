@@ -6,26 +6,30 @@ import React, { useContext, useState } from "react";
 import { nanoid } from "nanoid";
 import tasksContext from "./context/tasksContext";
 
-function App() {
+
+function App(props) {
   const FILTER_MAP = {
     All: () => true,
     Active: (task) => !task.completed,
     Completed: (task) => task.completed,
   };
-
+  
   const FILTER_NAMES = Object.keys(FILTER_MAP);
-  const { DATA } = useContext(tasksContext);
-  const [tasks, setTasks] = useState(DATA);
+  const {tasks, setTasks} = useContext(tasksContext);
   const [filter, setFilter] = useState("All");
 
+
   function toggleTaskCompleted(id) {
-    const updatedTasks = tasks.map((task) => {
-      if (id === task.id) {
-        return { ...task, completed: !task.completed };
-      }
-      return task;
-    });
-    setTasks(updatedTasks);
+     const updatedTasks = tasks.map((task) => {
+       
+       if (id === task.id) {
+         
+         
+         return { ...task, completed: !task.completed };
+       }
+       return task;
+     });
+     setTasks(updatedTasks);
   }
   const taskList = tasks
     .filter(FILTER_MAP[filter])
@@ -40,22 +44,22 @@ function App() {
         editTask={editTask}
       />
     ));
-  const filterList = FILTER_NAMES.map((name) => (
-    <FilterButton
-      key={name}
-      name={name}
-      isPressed={name === filter}
-      setFilter={setFilter}
-    />
-  ));
+const filterList = FILTER_NAMES.map((name) => (
+  <FilterButton
+    key={name}
+    name={name}
+    isPressed={name === filter}
+    setFilter={setFilter}
+  />
+));
 
   function addTask(name) {
-    const newTask = { id: "todo-" + nanoid(), name: name, completed: false };
+   const newTask = { id: "todo-" + nanoid(), name: name, completed: false };
     setTasks([...tasks, newTask]);
   }
   function deleteTask(id) {
-    const remainingTasks = tasks.filter((task) => id !== task.id);
-    setTasks(remainingTasks);
+     const remainingTasks = tasks.filter((task) => id !== task.id);
+     setTasks(remainingTasks);
   }
   function editTask(id, newName) {
     const editedTaskList = tasks.map((task) => {
@@ -68,13 +72,16 @@ function App() {
     });
     setTasks(editedTaskList);
   }
-  const tasksNoun = taskList.length !== 1 ? "tasks" : "task";
+ const tasksNoun = taskList.length !== 1 ? "tasks" : "task";
   const headingText = `${taskList.length} ${tasksNoun} remaining`;
-
+  
+  
   return (
+    <tasksContext.Provider value={{filter, setFilter, addTask, deleteTask, editTask}}>
+
     <div className="todoapp stack-large">
       <h1>TodoMatic</h1>
-      <Form addTask={addTask} deleteTask={deleteTask} editTask={editTask} />
+      <Form />
       <div className="filters btn-group stack-exception">{filterList}</div>
       <h2 id="list-heading">{headingText}</h2>
       <ul
@@ -84,6 +91,7 @@ function App() {
         {taskList}
       </ul>
     </div>
+    </tasksContext.Provider>
   );
 }
 

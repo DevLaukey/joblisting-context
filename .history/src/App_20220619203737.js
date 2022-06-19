@@ -2,8 +2,9 @@ import "./App.css";
 import Form from "./components/Form";
 import Todo from "./components/Todo";
 import FilterButton from "./components/FilterButton";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { nanoid } from "nanoid";
+import { useContext } from "react";
 import tasksContext from "./context/tasksContext";
 
 function App() {
@@ -14,8 +15,7 @@ function App() {
   };
 
   const FILTER_NAMES = Object.keys(FILTER_MAP);
-  const { DATA } = useContext(tasksContext);
-  const [tasks, setTasks] = useState(DATA);
+  const { tasks, setTasks } = useContext(tasksContext);
   const [filter, setFilter] = useState("All");
 
   function toggleTaskCompleted(id) {
